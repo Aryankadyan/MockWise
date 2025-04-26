@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom"
 
 export const PublicLayout = () => {
   return (
-    <div className="w-full">
+   <div className="w-full">
       {/* Header */}
       <Header/>
 
@@ -14,4 +14,5 @@ export const PublicLayout = () => {
     </div>
   )
 }
+
 
