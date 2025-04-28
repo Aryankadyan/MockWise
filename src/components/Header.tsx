@@ -1,20 +1,30 @@
-import { Link } from "react-router-dom"
+import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/clerk-react";
+import { Container } from "./Container";
+import { LogoContainer } from "./logo-container";
+import { NavigationRoutes } from "./navigation-routes";
 
-export const Header = () => {
+const Header = () => {
+  const { userId } = useAuth()
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2">
-    <div className="container mx-auto flex h-16 items-center justify-between px-4">
-      <Link to={"/"}>
-        <img
-          src="/assets/svgs/MockWise.png"
-          alt="MockWise logo"
-          className="h-14"
-        />
-      </Link>
+    <header
+      className={cn("w-full border-b duration-150 transition-all ease-in-out")}
+    >
+      <Container>
+        <div className="flex items-center gap-4 w-full">
+          {/* logo section */}
+          <LogoContainer />
+          {/* navigation section */}
+         <NavigationRoutes/>
 
-        <div className="flex gap-4"></div>
-      </div>
+          {/* profile section */}
+
+        </div>
+      </Container>
     </header>
-    )
-  }
- 
+
+  )
+}
+
+export default Header
