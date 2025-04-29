@@ -6,6 +6,8 @@ import { SignInPage } from "./routes/SignIn"
 import { SignUpPage } from "./routes/SignUp"
 import ProtectRoutes from "@/layouts/protected-routes"
 import { MainLayout } from "@/layouts/main-layout"
+import { Dashboard } from "./routes/Dashboard"
+import { Generate } from "./components/generate"
 
 const App = () => {
   return (
@@ -30,8 +32,10 @@ const App = () => {
             </ProtectRoutes>
           }
         >
-        {/* Add all the protect routes */}
-
+          {/* Add all the protect routes */}
+          <Route element={<Generate />} path="/generate">
+            <Route index element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
