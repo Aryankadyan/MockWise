@@ -23,7 +23,7 @@ export const ProfileContainer = () => {
         ) : (
         <Link to={"/signin"}>
         <Button size={"sm"}>Get Started</Button>
-        </Link>
+        </Link> 
         )}
     </div>
   )

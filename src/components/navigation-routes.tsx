@@ -25,7 +25,7 @@ export const NavigationRoutes = ({ isMobile = false }: NavigationRoutesProps) =>
               )
             }
           >
-            {route.label}
+            {route.label} 
           </NavLink>
         </li>
       ))}

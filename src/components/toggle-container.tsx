@@ -9,7 +9,7 @@ import { Menu } from "lucide-react"
 import { NavigationRoutes } from "./navigation-routes"
 import { NavLink } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import { useAuth } from "@clerk/clerk-react"
+import { useAuth } from "@clerk/clerk-react" 
 
 export const ToggleContainer = () => {
   const { userId } = useAuth();

@@ -9,7 +9,7 @@ export const LogoContainer = () => {
         className="h-14"
       />
     </Link>
-  );
+  ); 
 };
 
   
