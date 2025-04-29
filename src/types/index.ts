@@ -6,5 +6,5 @@ export interface User {
     email: string
     imageUrl: string
     createdAt: Timestamp | FieldValue
-    updateAt: Timestamp | FieldValue
+    updatedAt: Timestamp | FieldValue
 }

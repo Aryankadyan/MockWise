@@ -28,7 +28,7 @@ const AuthHandler = () => {
                             email: user.primaryEmailAddress?.emailAddress || "N/A",
                             imageUrl: user.imageUrl,
                             createdAt: serverTimestamp(),
-                            updateAt: serverTimestamp()
+                            updatedAt: serverTimestamp()
                         }
 
                         await setDoc(doc(db, "users", user.id), userData)
@@ -36,7 +36,7 @@ const AuthHandler = () => {
                 }
                 catch (error) {
                     console.log("Error on storing the user data : ", error)
-                } finally { 
+                } finally {
                     setLoading(false)
                 }
             }
