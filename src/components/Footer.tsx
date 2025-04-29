@@ -1,7 +1,5 @@
 import React from "react";
-
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 import { Container } from "@/components/Container";
 import { MainRoutes } from "@/lib/helper";
@@ -18,7 +16,7 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, icon, hoverColor }) => {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`hover:${hoverColor}`}
+      className={`transition-transform duration-200 hover:scale-125 ${hoverColor}`}
     >
       {icon}
     </a>
@@ -35,7 +33,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ to, children }) => {
     <li>
       <Link
         to={to}
-        className="hover:underline text-gray-300 hover:text-gray-100"
+        className="hover:underline text-gray-300 hover:text-white text-sm transition-colors"
       >
         {children}
       </Link>
@@ -45,12 +43,12 @@ const FooterLink: React.FC<FooterLinkProps> = ({ to, children }) => {
 
 export const Footer = () => {
   return (
-    <div className="w-full bg-black text-gray-300 hover:text-gray-100 py-8">
+    <div className="w-full bg-black text-gray-300 py-10 border-t-4 border-transparent bg-gradient-to-r from-purple-700 via-indigo-600 to-teal-500">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* First Column: Links */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+          {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {MainRoutes.map((route) => (
                 <FooterLink key={route.href} to={route.href}>
@@ -60,68 +58,56 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Second Column: About Us */}
+          {/* About Us */}
           <div>
-            <h3 className="font-bold text-lg mb-4">About Us</h3>
-            <p>
-              We are committed to helping you unlock your full potential with
-              AI-powered tools. Our platform offers a wide range of resources to
-              improve your interview skills and chances of success.
+            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">About Us</h3>
+            <p className="leading-relaxed text-sm text-gray-300">
+              We help you unlock your full potential with AI-powered tools. Improve your interview skills and success rate with our smart platform.
             </p>
           </div>
 
-          {/* Third Column: Services */}
+          {/* Services */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Services</h3>
-            <ul>
-              <li>
-                <FooterLink to="/services/interview-prep">
-                  Interview Preparation
-                </FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/services/career-coaching">
-                  Career Coaching
-                </FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/services/resume-building">
-                  Resume Building
-                </FooterLink>
-              </li>
+            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Services</h3>
+            <ul className="space-y-2">
+              <li><FooterLink to="/services/interview-prep">Interview Preparation</FooterLink></li>
+              <li><FooterLink to="/services/career-coaching">Career Coaching</FooterLink></li>
+              <li><FooterLink to="/services/resume-building">Resume Building</FooterLink></li>
             </ul>
           </div>
 
-          {/* Fourth Column: Address and Social Media */}
-          <div>
-            <h3 className="font-bold text-lg mb-4">Contact Us</h3>
-            <p className="mb-4">123 AI Street, Tech City, 12345</p>
-            <div className="flex gap-4">
-            <SocialLink
-  href="https://facebook.com"
-  icon={<FaFacebookF size={20} />}
-  hoverColor="text-blue-600"
-/>
-<SocialLink
-  href="https://twitter.com"
-  icon={<FaTwitter size={20} />}
-  hoverColor="text-blue-400"
-/>
-<SocialLink
-  href="https://instagram.com"
-  icon={<FaInstagram size={20} />}
-  hoverColor="text-pink-500"
-/>
-<SocialLink
-  href="https://linkedin.com"
-  icon={<FaLinkedinIn size={20} />}
-  hoverColor="text-blue-700"
-/>
+          {/* Newsletter Signup */}
+          <div className="md:col-span-2">
+            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Stay Updated</h3>
+            <p className="mb-3 text-sm text-orange-300">Get interview tips and updates straight to your inbox.</p>
+            <form className="flex flex-col sm:flex-row items-stretch gap-2">
+              <input
+                type="email"
+                placeholder="Your email"
+                className="px-3 py-2 rounded-md text-black w-full focus:outline-none"
+              />
+              <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md font-medium transition-transform hover:scale-105">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
 
-            </div>
+        {/* Divider */}
+        <div className="h-px w-full bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 my-8" />
+
+        {/* Bottom Row */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-800">
+          <p>&copy; {new Date().getFullYear()} AI Interviews Copilot. All rights reserved.</p>
+          <div className="flex gap-4">
+            <SocialLink href="https://facebook.com" icon={<FaFacebookF size={20} />} hoverColor="text-blue-800" />
+            <SocialLink href="https://twitter.com" icon={<FaTwitter size={20} />} hoverColor="text-blue-300" />
+            <SocialLink href="https://instagram.com" icon={<FaInstagram size={20} />} hoverColor="text-pink-700" />
+            <SocialLink href="https://linkedin.com" icon={<FaLinkedinIn size={20} />} hoverColor="text-blue-700" />
           </div>
         </div>
       </Container>
     </div>
   );
 };
+
