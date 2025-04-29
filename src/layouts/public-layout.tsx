@@ -5,7 +5,8 @@ import { Outlet } from "react-router-dom"
 export const PublicLayout = () => {
   return (
    <div className="w-full">
-      {/* Header */}
+      {/* Handler to store the user data */}
+      <AuthHandler/>
       <Header/>
 
       <Outlet/>
