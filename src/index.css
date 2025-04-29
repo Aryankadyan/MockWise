@@ -66,4 +66,11 @@
   body {
     @apply bg-background text-foreground;
   }
+  .text-outline{
+    color: white;
+    text-shadow: -1px -1px 0 rgba(45, 206, 174, 0.8),
+      /* Top-left */ 1px -1px 0 rgba(45, 206, 174, 0.8),
+      /* Top-right */ -1px 1px 0 rgba(45, 206, 174, 0.8),
+      /* Bottom-left */ 1px 1px 0 rgba(45, 206, 174, 0.8); /* Bottom-right */
+  }
 }
