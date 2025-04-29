@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 const AuthHandler = () => {
-    const { isSignedIn 'a'} = useAuth()
+    const { isSignedIn } = useAuth()
     const { user } = useUser()
 
     const pathname = useLocation().pathname
