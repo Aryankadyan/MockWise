@@ -61,7 +61,7 @@ export const Footer = () => {
           {/* About Us */}
           <div>
             <h3 className="font-semibold text-xl text-white tracking-wide mb-4">About Us</h3>
-            <p className="leading-relaxed text-sm text-gray-300">
+            <p className="leading-relaxed text-sm text-gray-400">
               We help you unlock your full potential with AI-powered tools. Improve your interview skills and success rate with our smart platform.
             </p>
           </div>
@@ -70,9 +70,9 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Services</h3>
             <ul className="space-y-2">
-              <li><FooterLink to="/services/interview-prep">Interview Preparation</FooterLink></li>
-              <li><FooterLink to="/services/career-coaching">Career Coaching</FooterLink></li>
-              <li><FooterLink to="/services/resume-building">Resume Building</FooterLink></li>
+              <FooterLink to="/services/interview-prep">Interview Preparation</FooterLink>
+              <FooterLink to="/services/career-coaching">Career Coaching</FooterLink>
+              <FooterLink to="/services/resume-building">Resume Building</FooterLink>
             </ul>
           </div>
 
@@ -97,12 +97,12 @@ export const Footer = () => {
         <div className="h-px w-full bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 my-8" />
 
         {/* Bottom Row */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-800">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-300">
           <p>&copy; {new Date().getFullYear()} AI Interviews Copilot. All rights reserved.</p>
           <div className="flex gap-4">
-            <SocialLink href="https://facebook.com" icon={<FaFacebookF size={20} />} hoverColor="text-blue-800" />
-            <SocialLink href="https://twitter.com" icon={<FaTwitter size={20} />} hoverColor="text-blue-300" />
-            <SocialLink href="https://instagram.com" icon={<FaInstagram size={20} />} hoverColor="text-pink-700" />
+            <SocialLink href="https://facebook.com" icon={<FaFacebookF size={20} />} hoverColor="text-blue-600" />
+            <SocialLink href="https://twitter.com" icon={<FaTwitter size={20} />} hoverColor="text-blue-400" />
+            <SocialLink href="https://instagram.com" icon={<FaInstagram size={20} />} hoverColor="text-pink-500" />
             <SocialLink href="https://linkedin.com" icon={<FaLinkedinIn size={20} />} hoverColor="text-blue-700" />
           </div>
         </div>
@@ -110,4 +110,3 @@ export const Footer = () => {
     </div>
   );
 };
-
