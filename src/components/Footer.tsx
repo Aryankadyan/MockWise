@@ -36,7 +36,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ to, children }) => {
         className="hover:underline text-gray-300 hover:text-white text-sm transition-colors"
       >
         {children}
-      </Link>
+      </Link> 
     </li>
   );
 };
