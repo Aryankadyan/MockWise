@@ -8,3 +8,15 @@ export interface User {
     createdAt: Timestamp | FieldValue
     updatedAt: Timestamp | FieldValue
 }
+
+export interface Interview {
+    id: string;
+    position: string;
+    description: string;
+    experience: number;
+    userId: string;
+    techStack: string;
+    questions: {questions: string, answer: string}[];
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+}

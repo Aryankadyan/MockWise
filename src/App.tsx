@@ -8,6 +8,7 @@ import ProtectRoutes from "@/layouts/protected-routes"
 import { MainLayout } from "@/layouts/main-layout"
 import { Dashboard } from "./routes/Dashboard"
 import { Generate } from "./components/generate"
+import { CreateEditPage } from "./routes/CreateEditPage"
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           {/* Add all the protect routes */}
           <Route element={<Generate />} path="/generate">
             <Route index element={<Dashboard />} />
+            <Route path=":interviewId" element={<CreateEditPage/>}/>
           </Route>
         </Route>
       </Routes>

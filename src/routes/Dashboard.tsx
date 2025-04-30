@@ -1,5 +1,6 @@
 import { Headings } from "@/components/headings"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@radix-ui/react-separator"
 import { Plus } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -20,6 +21,8 @@ export const Dashboard = () => {
 </Button>
 </Link>
     </div>
+
+    <Separator className="my-8"/>
       {/* content section */}
       </>
   )
