@@ -115,7 +115,7 @@ const Home = () => {
               "I used AI Superpower to prepare for my interviews. I felt confident, answered questions clearly, and got the job!"
             </p>
 
-            <Button className="mt-3 bg-gradient-to-r from-teal-400 to-purple-500 text-white hover:scale-105 transition-transform">
+            <Button className="mt-3 bg-gradient-to-r from-orange-400 to-purple-500 text-white hover:scale-105 transition-transform">
               Generate <Sparkles className="ml-1 w-4 h-4" />
             </Button>
           </div>

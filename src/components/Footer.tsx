@@ -43,7 +43,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ to, children }) => {
 
 export const Footer = () => {
   return (
-    <div className="w-full bg-black text-gray-300 py-10 border-t-4 border-transparent bg-gradient-to-r from-purple-700 via-indigo-600 to-teal-500">
+    <div className="w-full bg-black text-gray-300 py-10 border-t-4 border-transparent bg-gradient-to-r from-orange-400 via-violet-500 to-teal-400">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Quick Links */}
