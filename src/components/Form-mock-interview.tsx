@@ -67,16 +67,16 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
       }
     }
 
-  useEffect(() => {
-    if (initialData) {
-      form.reset({
-        position: initialData.position,
-        description: initialData.description,
-        experience: initialData.experience,
-        techStack: initialData.techStack,
+    useEffect(() => {
+      if (initialData) {
+        form.reset({
+        position: initialData?.position || "",
+        description: initialData?.description || "",
+        experience: initialData?.experience ?? 0,
+        techStack: initialData?.techStack || "",
       })
-    }
-  }, [initialData, form])
+      }
+    }, [initialData, form]);
 
   return (
     <div className="w-full flex-col space-y-4">
@@ -96,6 +96,8 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
       </div>
 
       <Separator className="my-4" />
+
+      <div className="my-6"></div>
 
       <FormProvider {...form}>
         <form

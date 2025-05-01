@@ -15,7 +15,7 @@ export const Dashboard = () => {
       description="Create and start your AI Mock Interview"
 />
 
-<Link to={"generate/create"} >
+<Link to={"/generate/create"} >
 <Button size={"sm"}>
   <Plus/> Add new 
 </Button>
