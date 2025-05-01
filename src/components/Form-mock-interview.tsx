@@ -1,86 +1,92 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { FormProvider, useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Interview } from "@/types"
-
-import { CustomBreadCrumb } from "./custom-breadcrumb"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "@clerk/clerk-react"
-import { toast } from "sonner"
-import { Headings } from "./headings"
-import { Button } from "./ui/button"
-import { Loader, Trash2 } from "lucide-react"
-import { Separator } from "./ui/separator"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
-import { chatSession } from "@/scripts"
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore"
-import { db } from "@/config/firebase.config"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { Interview } from "@/types";
+import { CustomBreadCrumb } from "./custom-breadcrumb";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
+import { toast } from "sonner";
+import { Headings } from "./headings";
+import { Button } from "./ui/button";
+import { Loader, Trash2, Info } from "lucide-react";
+import { Separator } from "./ui/separator";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { chatSession } from "@/scripts";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "@/config/firebase.config";
 
 interface FormMockInterviewProps {
-  initialData: Interview | null
+  initialData: Interview | null;
 }
 
 const formSchema = z.object({
-  position: z.string().min(1, "Position is required").max(100, "Position must be 100 characters or less"),
+  position: z
+    .string()
+    .min(1, "Position is required")
+    .max(100, "Position must be 100 characters or less"),
   description: z.string().min(10, "Description is required"),
-  experience: z.coerce.number().min(0, "Experience is required"),
-  techStack: z.string().min(1, "Tech stack is required"),
-})
+  experience: z.coerce
+    .number()
+    .min(0, "Experience cannot be empty or negative"),
+  techStack: z.string().min(1, "Tech stack must be at least a character"),
+});
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>;
 
 export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {},
-  })
+  });
 
-  const { isValid, isSubmitting } = form.formState
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-  const { userId } = useAuth()
+  const { isValid, isSubmitting } = form.formState;
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { userId } = useAuth();
 
   const title = initialData
     ? initialData.position
-    : "Create a new Mock interview"
-
-  const breadCrumbPage = initialData?.position || "Create"
-  const actions = initialData ? "Save Changes" : "Create"
+    : "Create a New Mock Interview";
+  const breadCrumpPage = initialData ? initialData?.position : "Create";
+  const actions = initialData ? "Save Changes" : "Create";
   const toastMessage = initialData
-    ? { title: "Updated..!", description: "Changes saved successfully..." }
-    : { title: "Created..!", description: "New Mock Interview created.." }
-
+    ? { title: "Updated!", description: "Changes saved successfully." }
+    : { title: "Created!", description: "New Mock Interview created." };
 
   const cleanAiResponse = (responseText: string) => {
-    // 1. Trim any surrounding whitespace
     let cleanText = responseText.trim();
-
-    // 2. Remove any occurances of "json" or code block symbols(``` or`)
-    cleanText = cleanText.replace(/(json|```|`)/g, "")
-
-    // 3. Extract a JSON array by capturing text between square brackets
-    const jsonArrayMatch = cleanText.match(/\[.*\]/s)
+    cleanText = cleanText.replace(/(json|```|`)/g, "");
+    const jsonArrayMatch = cleanText.match(/\[.*\]/s);
     if (jsonArrayMatch) {
-      cleanText = jsonArrayMatch[0]
+      cleanText = jsonArrayMatch[0];
     } else {
-      throw new Error("No JSON array found in response")
+      throw new Error("No JSON array found in response");
     }
-
-    // 4. Parse the clean JSON text into an array of objects
     try {
-      return JSON.parse(cleanText)
+      return JSON.parse(cleanText);
     } catch (error) {
-      throw new Error("Invalid JSON format:" + (error as Error)?.message)
+      throw new Error("Invalid JSON format: " + (error as Error)?.message);
     }
-  }
+  };
 
   const generateAiResponse = async (data: FormData) => {
-    const prompt =
-      `As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
+    const prompt = `
+        As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
 
         [
           { "question": "<Question text>", "answer": "<Answer text>" },
@@ -94,152 +100,169 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
         - Tech Stacks: ${data?.techStack}
 
         The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
-       `
+        `;
 
-    const aiResult = await chatSession.sendMessage(prompt)
-    const cleanedResponse = cleanAiResponse(aiResult.response.text())
-
-    return cleanedResponse
-  }
+    const aiResult = await chatSession.sendMessage(prompt);
+    return cleanAiResponse(aiResult.response.text());
+  };
 
   const onSubmit = async (data: FormData) => {
     try {
-      setLoading(true)
-
+      setLoading(true);
       if (initialData) {
-        // update existing interview
         if (isValid) {
-          const aiResult = await generateAiResponse(data) 
+          const aiResult = await generateAiResponse(data);
           await updateDoc(doc(db, "interviews", initialData?.id), {
             questions: aiResult,
             ...data,
-            updatedAt: serverTimestamp()
-          })
-          toast(toastMessage.title, { description: toastMessage.description })
+            updatedAt: serverTimestamp(),
+          });
+          toast(toastMessage.title, { description: toastMessage.description });
         }
-      }
-      else {
-
-        // create a new mock interview
+      } else {
         if (isValid) {
-          const aiResult = await generateAiResponse(data)
-
+          const aiResult = await generateAiResponse(data);
           await addDoc(collection(db, "interviews"), {
             ...data,
             userId,
             questions: aiResult,
-            createdAt: serverTimestamp()
-          })
-
-          toast(toastMessage.title, { description: toastMessage.description })
+            createdAt: serverTimestamp(),
+          });
+          toast(toastMessage.title, { description: toastMessage.description });
         }
       }
-      navigate("/generate", { replace: true })
+      navigate("/generate", { replace: true });
     } catch (error) {
-      console.error(error)
-      toast.error("Error..", {
-        description: `Something went wrong. Please try again later`,
-      })
+      console.log(error);
+      toast.error("Error!", {
+        description: "Something went wrong. Please try again later.",
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (initialData) {
       form.reset({
-        position: initialData?.position || "",
-        description: initialData?.description || "",
-        experience: initialData?.experience ?? 0,
-        techStack: initialData?.techStack || "",
-      })
+        position: initialData.position,
+        description: initialData.description,
+        experience: initialData.experience,
+        techStack: initialData.techStack,
+      });
     }
   }, [initialData, form]);
 
   return (
-    <div className="w-full flex-col space-y-4">
-      <CustomBreadCrumb
-        breadCrumbPage={breadCrumbPage}
-        breadCrumbItems={[{ label: "Mock Interview", link: "/generate" }]}
-      />
-
-      <div className="mt-4 flex items-center justify-between w-full">
-        <Headings title={title} isSubHeading />
-
+    <div className="w-full flex flex-col space-y-6 p-4 md:p-8">
+      {/* Breadcrumb and Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+        <CustomBreadCrumb
+          breadCrumbPage={breadCrumpPage}
+          breadCrumbItems={[{ label: "Mock Interviews", link: "/generate" }]}
+        />
         {initialData && (
-          <Button size={"icon"} variant={"ghost"}>
-            <Trash2 className="min-w-4 min-h-4 text-red-400" />
+          <Button
+            size="icon"
+            variant="ghost"
+            className="mt-2 md:mt-0 hover:bg-red-50 transition-colors"
+          >
+            <Trash2 className="w-5 h-5 text-red-500" />
           </Button>
         )}
       </div>
 
-      <Separator className="my-4" />
+      <Headings
+        title={title}
+        isSubHeading
+      />
 
-      <div className="my-6"></div>
+      <Separator className="my-4 bg-gray-200" />
 
+      {/* Form Container with Gradient Background */}
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full p-8 rounded-lg flex flex-col items-start justify-start gap-6 shadow-md"
+          className="w-full p-6 md:p-8 rounded-xl shadow-lg bg-gradient-to-br from-white to-gray-50 border border-gray-100"
         >
+          {/* Job Role / Position */}
           <FormField
             control={form.control}
             name="position"
             render={({ field }) => (
-              <FormItem className="w-full space-y-4">
-                <div className="w-full flex items-center justify-between">
-                  <FormLabel>Job Role / Job Position</FormLabel>
-                  <FormMessage className="text-sm" />
+              <FormItem className="w-full mb-6">
+                <div className="flex items-center justify-between">
+                  <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    Job Role / Position
+                    <Info className="w-4 h-4 text-gray-400">
+                      <title>Enter the job title, e.g., Full Stack Developer</title>
+                    </Info>
+                  </FormLabel>
+                  <FormMessage className="text-xs text-red-500" />
                 </div>
                 <FormControl>
                   <Input
+                    className="h-12 mt-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder:text-gray-400"
                     disabled={loading}
-                    className="h-11"
-                    placeholder="eg:- Full stack developer"
+                    placeholder="e.g., Full Stack Developer"
                     {...field}
+                    value={field.value || ""}
                   />
                 </FormControl>
               </FormItem>
             )}
           />
 
+          {/* Job Description */}
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem className="w-full space-y-4">
-                <div className="w-full flex items-center justify-between">
-                  <FormLabel>Job Description</FormLabel>
-                  <FormMessage className="text-sm" />
+              <FormItem className="w-full mb-6">
+                <div className="flex items-center justify-between">
+                  <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    Job Description
+                    <Info className="w-4 h-4 text-gray-400">
+                      <title>Describe the job role in detail</title>
+                    </Info>
+                  </FormLabel>
+                  <FormMessage className="text-xs text-red-500" />
                 </div>
                 <FormControl>
                   <Textarea
-                    {...field}
+                    className="h-32 mt-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder:text-gray-400 resize-none"
                     disabled={loading}
-                    className="h-24"
-                    placeholder="eg:- describe your job role or position..."
+                    placeholder="e.g., Build and maintain web applications using React and Node.js..."
+                    {...field}
+                    value={field.value || ""}
                   />
                 </FormControl>
               </FormItem>
             )}
           />
 
+          {/* Years of Experience */}
           <FormField
             control={form.control}
             name="experience"
             render={({ field }) => (
-              <FormItem className="w-full space-y-4">
-                <div className="w-full flex items-center justify-between">
-                  <FormLabel>Years of Experience</FormLabel>
-                  <FormMessage className="text-sm" />
+              <FormItem className="w-full mb-6">
+                <div className="flex items-center justify-between">
+                  <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    Years of Experience
+                    <Info className="w-4 h-4 text-gray-400">
+                      <title>Enter the required years of experience</title>
+                    </Info>
+                  </FormLabel>
+                  <FormMessage className="text-xs text-red-500" />
                 </div>
                 <FormControl>
                   <Input
-                    {...field}
                     type="number"
+                    className="h-12 mt-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder:text-gray-400"
                     disabled={loading}
-                    className="h-11"
-                    placeholder="eg:- 4 years"
+                    placeholder="e.g., 5"
+                    {...field}
                     value={field.value || ""}
                   />
                 </FormControl>
@@ -247,21 +270,27 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
             )}
           />
 
+          {/* Tech Stack */}
           <FormField
             control={form.control}
             name="techStack"
             render={({ field }) => (
-              <FormItem className="w-full space-y-4">
-                <div className="w-full flex items-center justify-between">
-                  <FormLabel>Tech Stacks</FormLabel>
-                  <FormMessage className="text-sm" />
+              <FormItem className="w-full mb-6">
+                <div className="flex items-center justify-between">
+                  <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    Tech Stack
+                    <span title="List the technologies, e.g., React, TypeScript">
+                      <Info className="w-4 h-4 text-gray-400" />
+                    </span>
+                  </FormLabel>
+                  <FormMessage className="text-xs text-red-500" />
                 </div>
                 <FormControl>
                   <Textarea
-                    {...field}
+                    className="h-20 mt-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder:text-gray-400 resize-none"
                     disabled={loading}
-                    className="h-24"
-                    placeholder="eg:- React, TypeScript, Node, Express, MongoDB... (Separated by comma)"
+                    placeholder="e.g., React, TypeScript, Firebase..."
+                    {...field}
                     value={field.value || ""}
                   />
                 </FormControl>
@@ -269,18 +298,33 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
             )}
           />
 
-          <div className="w-full flex items-center justify-end gap-5">
-            <Button type="reset" size="sm" variant="outline" disabled={isSubmitting || loading}>
+          {/* Action Buttons */}
+          <div className="w-full flex items-center justify-end gap-4 mt-8">
+            <Button
+              type="reset"
+              size="sm"
+              variant="outline"
+              disabled={isSubmitting || loading}
+              className="h-10 px-6 rounded-lg border-gray-400 text-gray-700 hover:bg-gray-300 transition-all"
+            >
               Reset
             </Button>
-            <Button type="submit" size="sm" disabled={isSubmitting || loading || !isValid}>
-              {loading ? <Loader className="text-gray-100 animate-spin" /> : actions}
+            <Button
+              type="submit"
+              size="sm"
+              disabled={isSubmitting || !isValid || loading}
+              className="h-10 px-6 rounded-lg bg-gradient-to-r from-orange-500 to-purple-400 text-white hover:from-indigo-400 hover:to-purple-500 transition-all disabled:opacity-50"
+            >
+              {loading ? (
+                <Loader className="w-5 h-5 text-white animate-spin" />
+              ) : (
+                actions
+              )}
             </Button>
           </div>
         </form>
       </FormProvider>
     </div>
-  )
-}
-
-
+  );
+};
+  
