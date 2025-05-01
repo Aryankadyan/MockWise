@@ -16,6 +16,7 @@ import { Separator } from "./ui/separator"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
+import { chatSession } from "@/scripts"
 
 interface FormMockInterviewProps {
   initialData: Interview | null
@@ -42,8 +43,8 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
   const { userId } = useAuth()
 
   const title = initialData
-  ? initialData.position
-  : "Create a new Mock interview"
+    ? initialData.position
+    : "Create a new Mock interview"
 
   const breadCrumbPage = initialData?.position || "Create"
   const actions = initialData ? "Save Changes" : "Create"
@@ -51,32 +52,87 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
     ? { title: "Updated..!", description: "Changes saved successfully..." }
     : { title: "Created..!", description: "New Mock Interview created.." }
 
-    const onSubmit = async (data: FormData) => {
-      try {
-        setLoading(true)
-        console.log(data)
-        toast.success(toastMessage.title, { description: toastMessage.description })
-        navigate("/generate")
-      } catch (error) {
-        console.error(error)
-        toast.error("Error..", {
-          description: `Something went wrong. Please try again later`,
-        })
-      } finally {
-        setLoading(false)
-      }
+
+  const cleanAiResponse = (responseText: string) => {
+    // 1. Trim any surrounding whitespace
+    let cleanText = responseText.trim();
+
+    // 2. Remove any occurances of "json" or code block symbols(``` or`)
+    cleanText = cleanText.replace(/(json|```|`)/g, "")
+
+    // 3. Extract a JSON array by capturing text between square brackets
+    const jsonArrayMatch = cleanText.match(/\[.*\]/s)
+    if (jsonArrayMatch) {
+      cleanText = jsonArrayMatch[0]
+    } else {
+      throw new Error("No JSON array found in response")
     }
 
-    useEffect(() => {
+    // 4. Parse the clean JSON text into an array of objects
+    try {
+      return JSON.parse(cleanText)
+    } catch (error) {
+      throw new Error("Invalid JSON format:" + (error as Error)?.message)
+    }
+  }
+
+  const generateAiResponse = async (data: FormData) => {
+    const prompt =
+      `As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
+
+        [
+          { "question": "<Question text>", "answer": "<Answer text>" },
+          ...
+        ]
+
+        Job Information:
+        - Job Position: ${data?.position}
+        - Job Description: ${data?.description}
+        - Years of Experience Required: ${data?.experience}
+        - Tech Stacks: ${data?.techStack}
+
+        The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
+       `
+
+    const aiResult = await chatSession.sendMessage(prompt)
+    console.log(aiResult.response.text().trim())
+  }
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      setLoading(true)
+
       if (initialData) {
-        form.reset({
+        // update existing interview
+      }
+      else {
+
+        // create a new mock interview
+        if (isValid) {
+          const aiResult = await generateAiResponse(data)
+        }
+      }
+
+    } catch (error) {
+      console.error(error)
+      toast.error("Error..", {
+        description: `Something went wrong. Please try again later`,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
         position: initialData?.position || "",
         description: initialData?.description || "",
         experience: initialData?.experience ?? 0,
         techStack: initialData?.techStack || "",
       })
-      }
-    }, [initialData, form]);
+    }
+  }, [initialData, form]);
 
   return (
     <div className="w-full flex-col space-y-4">
