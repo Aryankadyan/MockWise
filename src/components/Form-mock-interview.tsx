@@ -44,7 +44,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
   const title = initialData
   ? initialData.position
   : "Create a new Mock interview"
-  
+
   const breadCrumbPage = initialData?.position || "Create"
   const actions = initialData ? "Save Changes" : "Create"
   const toastMessage = initialData
@@ -55,6 +55,8 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
       try {
         setLoading(true)
         console.log(data)
+        toast.success(toastMessage.title, { description: toastMessage.description })
+        navigate("/generate")
       } catch (error) {
         console.error(error)
         toast.error("Error..", {
