@@ -1,4 +1,5 @@
 import { Headings } from "@/components/headings"
+import { InterviewPin } from "@/components/pin"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -74,7 +75,7 @@ export const Dashboard = () => {
           ))
         ) : interviews.length > 0 ? (
           interviews.map((interview) => (
-            <p key={interview.id}>{interview.position}</p>
+           <InterviewPin key={interview.id} interview={interview} />
           ))
         ) : (
           <div className="md:col-span-3 w-full flex flex-grow items-center justify-center h-96 flex-col">
