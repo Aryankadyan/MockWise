@@ -17,6 +17,8 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/f
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 import { chatSession } from "@/scripts"
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore"
+import { db } from "@/config/firebase.config"
 
 interface FormMockInterviewProps {
   initialData: Interview | null
@@ -95,7 +97,9 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
        `
 
     const aiResult = await chatSession.sendMessage(prompt)
-    console.log(aiResult.response.text().trim())
+    const cleanedResponse = cleanAiResponse(aiResult.response.text())
+
+    return cleanedResponse
   }
 
   const onSubmit = async (data: FormData) => {
@@ -104,15 +108,34 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
 
       if (initialData) {
         // update existing interview
+        if (isValid) {
+          const aiResult = await generateAiResponse(data)
+
+          await updateDoc(doc(db, "interviews", initialData?.id), {
+            questions: aiResult,
+            ...data,
+            updatedAt: serverTimestamp()
+          })
+          toast(toastMessage.title, { description: toastMessage.description })
+        }
       }
       else {
 
         // create a new mock interview
         if (isValid) {
           const aiResult = await generateAiResponse(data)
+
+          await addDoc(collection(db, "interviews"), {
+            ...data,
+            userId,
+            questions: aiResult,
+            createdAt: serverTimestamp()
+          })
+
+          toast(toastMessage.title, { description: toastMessage.description })
         }
       }
-
+      navigate("/generate", { replace: true })
     } catch (error) {
       console.error(error)
       toast.error("Error..", {

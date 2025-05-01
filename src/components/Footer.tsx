@@ -48,7 +48,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-xl text-violet-200 tracking-wide mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {MainRoutes.map((route) => (
                 <FooterLink key={route.href} to={route.href}>
@@ -60,15 +60,15 @@ export const Footer = () => {
 
           {/* About Us */}
           <div>
-            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">About Us</h3>
-            <p className="leading-relaxed text-sm text-gray-200">
+            <h3 className="font-semibold text-xl text-orange-200 tracking-wide mb-4">About Us</h3>
+            <p className="leading-relaxed text-sm text-gray-300">
               We help you unlock your full potential with AI-powered tools. Improve your interview skills and success rate with our smart platform.
             </p>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Services</h3>
+            <h3 className="font-semibold text-xl text-teal-200 tracking-wide mb-4">Services</h3>
             <ul className="space-y-2">
               <FooterLink to="/services/interview-prep">Interview Preparation</FooterLink>
               <FooterLink to="/services/career-coaching">Career Coaching</FooterLink>
@@ -78,7 +78,7 @@ export const Footer = () => {
 
           {/* Newsletter Signup */}
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-xl text-white tracking-wide mb-4">Stay Updated</h3>
+            <h3 className="font-semibold text-xl text-blue-200 tracking-wide mb-4">Stay Updated</h3>
             <p className="mb-3 text-sm text-orange-200">Get interview tips and updates straight to your inbox.</p>
             <form className="flex flex-col sm:flex-row items-stretch gap-2">
               <input
