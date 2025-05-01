@@ -1,6 +1,6 @@
 import { Headings } from "@/components/headings"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@radix-ui/react-separator"
+import { Separator } from "@/components/ui/separator"
 import { Plus } from "lucide-react"
 import { Link } from "react-router-dom"
 
