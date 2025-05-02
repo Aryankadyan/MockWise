@@ -195,9 +195,3 @@ export const MockLoadPage = () => {
     </div>
   );
 };
-
-
-
-
-
-

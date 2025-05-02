@@ -1,4 +1,4 @@
-import { FieldValue, Timestamp } from "firebase/firestore"
+import { FieldValue, Timestamp, } from "firebase/firestore"
 
 export interface User {
     id: string
@@ -16,7 +16,8 @@ export interface Interview {
     experience: number;
     userId: string;
     techStack: string;
-    questions: {questions: string, answer: string}[];
+    questions: {id: string, question: string, answer: string }[];
     createdAt: Timestamp;
     updatedAt: Timestamp;
 }
+

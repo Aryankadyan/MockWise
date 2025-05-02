@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
     buttonVariant?: ButtonVariant;
     buttonClassName?: string;
     delay?: number;
-    disbaled?: boolean;
+    disabled?: boolean;
     loading?: boolean;
   }
   
@@ -37,7 +37,7 @@ import { cn } from "@/lib/utils";
     buttonVariant = "ghost",
     buttonClassName = "",
     delay = 0,
-    disbaled = false,
+    disabled = false,
     loading = false,
   }: TooltipButtonProps) => {
     return (
@@ -46,9 +46,9 @@ import { cn } from "@/lib/utils";
           <TooltipTrigger asChild>
             <Button
               size={"icon"}
-              disabled={disbaled}
+              disabled={disabled}
               variant={buttonVariant}
-              className={cn(buttonClassName, disbaled && "cursor-not-allowed")}
+              className={cn(buttonClassName, disabled && "cursor-not-allowed")}
               onClick={onClick}
             >
               {loading ? (
