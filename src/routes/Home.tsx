@@ -42,17 +42,18 @@
 
 // export default Home
 
-import { Container } from "@/components/Container"
+import { Container } from "@/components/Container";
 import { MarqueImg } from "@/components/marquee-img";
 import { Button } from "@/components/ui/button";
 import { Quote, Sparkles } from "lucide-react";
 import Marquee from "react-fast-marquee";
+import { FaChartLine, FaRegComment, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
 
 const Home = () => {
   return (
     <div className="flex flex-col w-full pb-24 bg-white text-slate-900">
+      {/* Hero Section */}
       <Container>
         <div className="my-16">
           <h2 className="text-center md:text-left text-4xl md:text-6xl font-semibold leading-tight">
@@ -80,7 +81,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* 1. image section */}
+        {/* Image Section */}
         <div className="w-full mt-4 rounded-xl bg-gray-100 h-[500px] md:h-[550px] drop-shadow-md overflow-hidden relative">
           <img
             src="/assets/img/hero.jpg"
@@ -122,7 +123,7 @@ const Home = () => {
         </div>
       </Container>
 
-      {/* 2. marquee section */}
+      {/* 1. Marquee Section */}
       <div className="w-full my-12">
         <Marquee pauseOnHover>
           <MarqueImg img="/assets/img/logo/firebase.png" />
@@ -138,40 +139,70 @@ const Home = () => {
         </Marquee>
       </div>
 
-      <Container className="py-12 space-y-10">
-  <h2 className="tracking-wide text-2xl md:text-3xl font-bold text-slate-800 text-center md:text-left leading-snug">
-    Unleash your potential with <span className="text-teal-500">personalized AI insights</span> and targeted interview practice.
-  </h2>
+      {/* 3. Features Section */}
+      <div className="flex flex-col w-full pb-24 bg-white text-slate-900">
+        <Container className="py-12 space-y-10">
+          <h2 className="tracking-wide text-2xl md:text-3xl font-bold text-slate-800 text-center md:text-left leading-snug">
+            Key Features of <span className="text-teal-500">AI Superpower</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Feature 1 */}
+            <div className="feature-card transform transition-all hover:scale-105 hover:shadow-xl hover:bg-teal-100 rounded-lg p-6 bg-white shadow-lg hover:text-teal-500 hover:border-teal-500 border-2 border-transparent flex flex-col items-center space-y-4">
+              <FaStar className="text-4xl text-teal-400" />
+              <h3 className="text-xl font-semibold">Personalized Feedback</h3>
+              <p className="text-slate-600 text-center">
+                Receive real-time feedback on your interview performance based on AI analysis.
+              </p>
+            </div>
 
-  <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
-    {/* Image Section */}
-    <div className="col-span-1 md:col-span-3 rounded-lg overflow-hidden shadow-lg hover:scale-[1.02] transition-transform">
-      <img
-        src="/assets/img/office.jpg"
-        alt="AI Office"
-        className="w-full h-full max-h-96 object-cover"
-      />
+            {/* Feature 2 */}
+            <div className="feature-card transform transition-all hover:scale-105 hover:shadow-xl hover:bg-purple-100 rounded-lg p-6 bg-white shadow-lg hover:text-purple-500 hover:border-purple-500 border-2 border-transparent flex flex-col items-center space-y-4">
+              <FaRegComment className="text-4xl text-purple-400" />
+              <h3 className="text-xl font-semibold">AI-Powered Question Generator</h3>
+              <p className="text-slate-600 text-center">
+                Practice with questions tailored to your job role and industry.
+              </p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="feature-card transform transition-all hover:scale-105 hover:shadow-xl hover:bg-yellow-100 rounded-lg p-6 bg-white shadow-lg hover:text-yellow-500 hover:border-yellow-500 border-2 border-transparent flex flex-col items-center space-y-4">
+              <FaChartLine className="text-4xl text-yellow-400" />
+              <h3 className="text-xl font-semibold">Comprehensive Report</h3>
+              <p className="text-slate-600 text-center">
+                Get a detailed report with insights and areas for improvement after every mock interview.
+              </p>
+            </div>
+          </div>
+        </Container>
+
+        <style>{`
+          .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+          }
+          .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+        `}</style>
+
+        {/* 4. Call to Action Section */}
+        <div className="flex flex-col w-full pb-24 bg-white text-slate-900">
+          <Container className="py-16 space-y-10 text-center bg-gradient-to-r from-teal-50 to-purple-50 rounded-lg shadow-xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-8">
+              Ready to take your interview skills to the next level?
+            </h2>
+            <Link to="/generate" className="w-full">
+              <Button className="py-4 px-10 text-lg font-semibold bg-gradient-to-r from-teal-400 to-purple-500 text-white shadow-xl hover:scale-105 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 ease-in-out transform">
+                Start Your Journey
+                <Sparkles className="ml-2 w-5 h-5 animate-pulse" />
+              </Button>
+            </Link>
+          </Container>
+        </div>
+      </div>
     </div>
-
-    {/* Text & Button Section */}
-    <div className="col-span-1 md:col-span-2 h-full flex flex-col items-center justify-center text-center px-4 md:px-6 space-y-6">
-      <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-        Transform the way you prepare, gain confidence, and boost your chances of landing your dream job.
-        Let <span className="text-purple-500 font-medium">AI</span> be your edge in today’s competitive job market.
-      </p>
-
-      <Link to="/generate" className="w-full">
-        <Button className="w-3/4 py-5 text-lg font-semibold bg-gradient-to-r from-teal-400 to-purple-500 text-white shadow-md hover:scale-110 transition-transform duration-300">
-          Generate <Sparkles className="ml-2" />
-        </Button>
-      </Link>
-    </div>
-  </div>
-</Container>
-
-
-    </div>
-  )
-}
+  );
+};
 
 export default Home;
+
