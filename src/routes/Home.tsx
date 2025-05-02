@@ -101,7 +101,9 @@ const Home = () => {
           <h2 className="tracking-wide text-2xl md:text-3xl font-bold text-slate-800 text-center md:text-left leading-snug">
             Key Features of <span className="text-teal-500">AI Superpower</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
             {/* Feature 1 */}
             <div className="feature-card transform transition-all hover:scale-105 hover:shadow-xl hover:bg-teal-100 rounded-lg p-6 bg-white shadow-lg hover:text-teal-500 hover:border-teal-500 border-2 border-transparent flex flex-col items-center space-y-4">
               <FaStar className="text-4xl text-teal-400" />
@@ -130,8 +132,18 @@ const Home = () => {
             </div>
           </div>
         </Container>
+      </div>
 
-        <style>{`
+      {/* Centered Image Below Heading */}
+      <div className="w-full flex justify-center mb-8">
+        <img
+          src="/assets/img/office.jpg"
+          alt="Office environment"
+          className="rounded-xl shadow-lg w-full max-w-md md:max-w-lg h-auto max-h-64 object-cover"
+        />
+      </div>
+
+      <style>{`
           .feature-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
           }
@@ -141,22 +153,22 @@ const Home = () => {
           }
         `}</style>
 
-        {/* 4. Call to Action Section */}
-        <div className="flex flex-col w-full pb-24 bg-white text-slate-900">
-          <Container className="py-16 space-y-10 text-center bg-gradient-to-r from-teal-50 to-purple-50 rounded-lg shadow-xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-8">
-              Ready to take your interview skills to the next level?
-            </h2>
-            <Link to="/generate" className="w-full">
-              <Button className="py-4 px-10 text-lg font-semibold bg-gradient-to-r from-teal-400 to-purple-500 text-white shadow-xl hover:scale-105 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 ease-in-out transform">
-                Start Your Journey
-                <Sparkles className="ml-2 w-5 h-5 animate-pulse" />
-              </Button>
-            </Link>
-          </Container>
-        </div>
+      {/* 4. Call to Action Section */}
+      <div className="flex flex-col w-full pb-24 bg-white text-slate-900">
+        <Container className="py-16 space-y-11 text-center bg-gradient-to-r from-teal-100 to-purple-100 rounded-lg shadow-xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-8">
+            Ready to take your interview skills to the next level?
+          </h2>
+          <Link to="/generate" className="w-full">
+            <Button className="py-4 px-10 text-lg font-semibold bg-gradient-to-r from-violet-400 to-emerald-400 text-white shadow-xl hover:scale-105 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 ease-in-out transform">
+              Start Your Journey
+              <Sparkles className="ml-2 w-5 h-5 animate-pulse" />
+            </Button>
+          </Link>
+        </Container>
       </div>
     </div>
+
   );
 };
 
