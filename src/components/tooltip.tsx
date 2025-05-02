@@ -6,6 +6,7 @@ import {
   } from "@/components/ui/tooltip";
   import { Button } from "@/components/ui/button";
   import { Loader } from "lucide-react";
+import { cn } from "@/lib/utils";
   
   // assuming the button variants types are something like following
   type ButtonVariant =
@@ -42,14 +43,12 @@ import {
     return (
       <TooltipProvider delayDuration={delay}>
         <Tooltip>
-          <TooltipTrigger
-            className={disbaled ? "cursor-not-allowed" : "cursor-pointer"}
-          >
+          <TooltipTrigger asChild>
             <Button
               size={"icon"}
               disabled={disbaled}
               variant={buttonVariant}
-              className={buttonClassName}
+              className={cn(buttonClassName, disbaled && "cursor-not-allowed")}
               onClick={onClick}
             >
               {loading ? (
@@ -66,5 +65,4 @@ import {
       </TooltipProvider>
     );
   };
-
-
+  
