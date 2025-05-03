@@ -7,14 +7,17 @@ import useSpeechToText, { ResultType } from "react-hook-speech-to-text";
 import { useParams } from "react-router-dom";
 import {
   CircleStop,
+  Loader,
   Mic,
   RefreshCw,
+  Save,
   Video,
   VideoOff,
   WebcamIcon,
 } from "lucide-react";
 import { TooltipButton } from "./tooltip";
 import { toast } from "sonner";
+import { chatSession } from "@/scripts";
 
 interface RecordAnswerProps {
   question: { question: string; answer: string };
@@ -38,7 +41,6 @@ export const RecordAnswer = ({
     results,
     startSpeechToText,
     stopSpeechToText,
-    error,
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
@@ -46,19 +48,93 @@ export const RecordAnswer = ({
 
   const [userAnswer, setUserAnswer] = useState("");
   const [isAiGenerating, setIsAiGenerating] = useState(false);
-  const [aiResult, setAiResult] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [aiResult, setAiResult] = useState<AIResponse | null>(null);
 
   const { userId } = useAuth();
   const { interviewId } = useParams();
 
-  useEffect(() => {
-    if (error) {
-      console.error("Speech-to-text error:", error);
-      toast.error("Speech recognition error. Please check your microphone.");
+
+  const recordUserAnswer = async () => {
+    if (isRecording) {
+      stopSpeechToText();
+
+      if (userAnswer?.length < 30) {
+        toast.error("Error", {
+          description: "Your answer should be more than 30 characters",
+        });
+
+        return;
+      }
+
+      //   ai result
+      const aiResult = await generateResult(
+        question.question,
+        question.answer,
+        userAnswer
+      );
+
+      console.log("AI Result:", aiResult)
+      setAiResult(aiResult);
+    } else {
+      startSpeechToText();
     }
-  }, [error]);
+  };
+
+  const cleanJsonResponse = (responseText: string) => {
+    // Step 1: Trim any surrounding whitespace
+    let cleanText = responseText.trim();
+
+    // Step 2: Remove any occurrences of "json" or code block symbols (``` or `)
+    cleanText = cleanText.replace(/(json|```|`)/g, "");
+
+    // Step 3: Parse the clean JSON text into an array of objects
+    try {
+      return JSON.parse(cleanText);
+    } catch (error) {
+      throw new Error("Invalid JSON format: " + (error as Error)?.message);
+    }
+  };
+
+  const generateResult = async (
+    qst: string,
+    qstAns: string,
+    userAns: string
+  ): Promise<AIResponse> => {
+    setIsAiGenerating(true);
+    const prompt = `
+    Question: "${qst}"
+    User Answer: "${userAns}"
+    Correct Answer: "${qstAns}"
+    Please compare the user's answer to the correct answer, and provide a
+    rating (from 1 to 10) based on answer quality, and offer feedback for
+    improvement.
+    Return the result in JSON format with the fields "ratings" (number) 
+    and "feedback" (string).
+  `;
+
+    try {
+      const aiResult = await chatSession.sendMessage(prompt);
+
+      const parsedResult: AIResponse = cleanJsonResponse(
+        aiResult.response.text()
+      );
+      return parsedResult;
+    } catch (error) {
+      console.log(error);
+      toast("Error", {
+        description: "An error occurred while generating feedback.",
+      });
+      return { ratings: 0, feedback: "Unable to generate feedback" };
+    } finally {
+      setIsAiGenerating(false);
+    }
+  };
+
+  const recordNewAnswer = () => {
+    setUserAnswer("");
+    stopSpeechToText();
+    startSpeechToText()
+  };
 
   useEffect(() => {
     const combineTranscripts = results
@@ -69,32 +145,6 @@ export const RecordAnswer = ({
     setUserAnswer(combineTranscripts);
   }, [results]);
 
-  const recordUserAnswer = () => {
-    if (isRecording) {
-      stopSpeechToText();
-
-      // Delay to let final results come in
-      setTimeout(() => {
-        if (userAnswer?.length < 40) {
-          toast.error("Answer too short", {
-            description: "Your answer should be more than 30 characters.",
-          });
-          return;
-        }
-
-        console.log("Final Answer:", userAnswer);
-        // You can add saving logic here
-      }, 500);
-    } else {
-      startSpeechToText();
-    }
-  };
-
-  const recordNewAnswer = () => {
-    setUserAnswer("");
-    stopSpeechToText();
-    startSpeechToText();
-  };
 
   return (
     <div className="w-full flex flex-col items-center gap-8 mt-4">
@@ -145,28 +195,43 @@ export const RecordAnswer = ({
           icon={<RefreshCw className="min-w-5 min-h-5" />}
           onClick={recordNewAnswer}
         />
+
+        <TooltipButton
+          content="Save Result"
+          icon={
+            isAiGenerating ? (
+              <Loader className="min-w-5 min-h-5 animate-spin" />
+            ) : (
+              <Save className="min-w-5 min-h-5" />
+            )
+          }
+          onClick={recordNewAnswer}
+        />
       </div>
 
       <div className="w-full mt-4 p-4 border rounded-md bg-gray-100">
         <h2 className="text-lg font-semibold">Your Answer:</h2>
-
         <p className="text-sm mt-2 text-gray-700 whitespace-normal">
           {userAnswer || "Start recording to see your answer here"}
         </p>
-
         {interimResult && (
           <p className="text-sm text-gray-500 mt-2">
             <strong>Current Speech:</strong> {interimResult}
           </p>
         )}
       </div>
+
+      {aiResult && (
+        <div className="w-full mt-4 p-4 border rounded-md bg-green-100">
+          <h2 className="text-lg font-semibold">AI Feedback:</h2>
+          <p className="text-sm mt-2 text-green-800">
+            <strong>Rating:</strong> {aiResult.ratings}/10
+          </p>
+          <p className="text-sm mt-2 text-green-800">
+            <strong>Feedback:</strong> {aiResult.feedback}
+          </p>
+        </div>
+      )}
     </div>
   );
-}; 
-
-
-
-
-
-
-
+};
