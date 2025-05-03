@@ -18,8 +18,9 @@ import { TooltipButton } from "./tooltip";
 import { toast } from "sonner";
 import { chatSession } from "@/scripts";
 import { db } from "@/config/firebase.config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, where, query, serverTimestamp, getDocs } from "firebase/firestore";
 import { motion } from "framer-motion";
+import { SaveModal } from "./save-modal";
 
 interface RecordAnswerProps {
   question: { question: string; answer: string };
@@ -52,6 +53,8 @@ export const RecordAnswer = ({
   const [isAiGenerating, setIsAiGenerating] = useState(false);
   const [aiResult, setAiResult] = useState<AIResponse | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { userId } = useAuth();
   const { interviewId } = useParams();
@@ -131,30 +134,61 @@ export const RecordAnswer = ({
     startSpeechToText();
   };
 
-  const saveResultToFirestore = async () => {
-    if (!userId || !interviewId || !aiResult) {
-      toast.error("Missing data");
+
+  const saveUserAnswer = async () => {
+    setLoading(true);
+  
+    if (!aiResult) {
+      toast.error("Missing AI result.");
       return;
     }
-
+  
+    const currentQuestion = question.question;
+  
     try {
-      setIsSaving(true);
-      await addDoc(collection(db, "results"), {
-        userId,
-        interviewId,
-        question: question.question,
-        answer: userAnswer,
-        rating: aiResult.ratings,
-        feedback: aiResult.feedback,
-        timestamp: new Date(),
-      });
+// query the firbase to check if the user answer already exists for this question
+  
+      const userAnswerQuery = query(
+        collection(db, "userAnswers"),
+        where("userId", "==", userId),
+        where("question", "==", currentQuestion)
+      );
+      const querySnap = await getDocs(userAnswerQuery);
 
-      toast.success("Result saved to Firestore!");
+      // if the user already answerd the question dont save it again
+      if (!querySnap.empty) {
+        console.log("Query Snap Size", querySnap.size);
+        toast.info("Already Answered", {
+          description: "You have already answered this question",
+        });
+        return;
+      } else {
+        // save the user answer
+
+        await addDoc(collection(db, "userAnswers"), {
+          mockIdRef: interviewId,
+          question: question.question,
+          correct_ans: question.answer,
+          user_ans: userAnswer,
+          feedback: aiResult.feedback,
+          rating: aiResult.ratings,
+          userId,
+          createdAt: serverTimestamp(),
+        });
+
+        toast("Saved", { description: "Your answer has been saved.." });
+      }
+
+      setUserAnswer("");
+      stopSpeechToText();
     } catch (error) {
-      toast.error("Failed to save result");
-      console.error("Firestore error:", error);
+      toast("Error", {
+        description: "An error occurred while generating feedback.",
+      });
+      console.log(error);
     } finally {
-      setIsSaving(false);
+      setLoading(false);
+      setOpen(!open);
     }
   };
 
@@ -167,12 +201,67 @@ export const RecordAnswer = ({
     setUserAnswer(combineTranscripts);
   }, [results]);
 
+  async function saveResultToFirestore(): Promise<void> {
+    if (!aiResult) {
+      toast.error("AI feedback is not available. Please record your answer first.");
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const userAnswerQuery = query(
+        collection(db, "userAnswers"),
+        where("userId", "==", userId),
+        where("question", "==", question.question)
+      );
+
+      const querySnap = await getDocs(userAnswerQuery);
+
+      if (!querySnap.empty) {
+        toast.info("Already Answered", {
+          description: "You have already answered this question.",
+        });
+        return;
+      }
+
+      await addDoc(collection(db, "userAnswers"), {
+        mockIdRef: interviewId,
+        question: question.question,
+        correct_ans: question.answer,
+        user_ans: userAnswer,
+        feedback: aiResult.feedback,
+        rating: aiResult.ratings,
+        userId,
+        createdAt: serverTimestamp(),
+      });
+
+      toast.success("Your answer has been successfully saved.");
+
+      setUserAnswer("")
+      stopSpeechToText()
+    } catch (error) {
+      console.error("Error saving result to Firestore:", error);
+      toast.error("An error occurred while saving your answer.");
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   return (
     <motion.div
       className="w-full flex flex-col items-center gap-8 mt-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      { /* save modal */}
+      <SaveModal 
+      isOpen={open}
+      onClose={()=> setOpen(false)}
+      onConfirm={saveUserAnswer}
+      loading={loading}
+      />
+
       <div className="w-full h-[400px] md:w-96 flex flex-col items-center justify-center p-4 rounded-lg border-4 border-sky-300 shadow-lg transition-all duration-300 bg-gray-800 dark:bg-gray-900">
         {isWebCam ? (
           <Webcam
@@ -267,4 +356,5 @@ export const RecordAnswer = ({
     )}
     </motion.div>
   );
-};
+}
+
