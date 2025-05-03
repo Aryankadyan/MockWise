@@ -1,25 +1,27 @@
 import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "./tooltip";
 import { Volume2, VolumeX } from "lucide-react";
 import { RecordAnswer } from "./record-answer";
 
 interface QuestionSectionProps {
-  questions: { id: string; question: string; answer: string }[];
+  questions: { question: string; answer: string }[];
 }
 
 export const QuestionSection = ({ questions }: QuestionSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWebCam, setIsWebCam] = useState(false);
+
   const [currentSpeech, setCurrentSpeech] =
     useState<SpeechSynthesisUtterance | null>(null);
 
   const handlePlayQuestion = (qst: string) => {
     if (isPlaying && currentSpeech) {
+      // stop the speech if already playing
       window.speechSynthesis.cancel();
       setIsPlaying(false);
-      setCurrentSpeech(null);
+      setCurrentSpeech(null); 
     } else {
       if ("speechSynthesis" in window) {
         const speech = new SpeechSynthesisUtterance(qst);
@@ -27,6 +29,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
         setIsPlaying(true);
         setCurrentSpeech(speech);
 
+        // handle the speech end
         speech.onend = () => {
           setIsPlaying(false);
           setCurrentSpeech(null);
@@ -48,7 +51,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
               className={cn(
                 "data-[state=active]:bg-emerald-200 data-[state=active]:shadow-md text-xs px-2"
               )}
-              key={tab.id}
+              key={tab.question}
               value={tab.question}
             >
               {`Question #${i + 1}`}
@@ -56,8 +59,8 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
           ))}
         </TabsList>
 
-        {questions?.map((tab) => (
-          <TabsContent key={tab.id} value={tab.question}>
+        {questions?.map((tab, i) => (
+          <TabsContent key={i} value={tab.question}>
             <p className="text-base text-left tracking-wide text-neutral-500">
               {tab.question}
             </p>
@@ -87,3 +90,17 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
     </div>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
