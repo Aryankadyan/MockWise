@@ -11,6 +11,11 @@ import { Generate } from "./components/generate"
 import { CreateEditPage } from "./routes/CreateEditPage"
 import { MockLoadPage } from "./routes/MockPage"
 import { MockInterviewPage } from "./routes/MockInterview"
+import { Feedback } from "./routes/FeedBack"
+import Contact from "./pages/Contact"
+import Services from "./pages/Services"
+import AboutUs from "./pages/AboutUs"
+
 
 const App = () => {
   return (
@@ -19,6 +24,10 @@ const App = () => {
         {/* Public routes */}
         <Route element={<PublicLayout />}>
           <Route index element={<Home />} />
+          {/* Pages routes */}
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<AboutUs />} />
         </Route>
 
         {/* authentication layout */}
@@ -38,9 +47,10 @@ const App = () => {
           {/* Add all the protect routes */}
           <Route element={<Generate />} path="/generate">
             <Route index element={<Dashboard />} />
-            <Route path=":interviewId" element={<CreateEditPage/>}/>
-            <Route path="interview/:interviewId" element={<MockLoadPage/>}/>
-            <Route path="interview/:interviewId/start" element={<MockInterviewPage/>}/>
+            <Route path=":interviewId" element={<CreateEditPage />} />
+            <Route path="interview/:interviewId" element={<MockLoadPage />} />
+            <Route path="interview/:interviewId/start" element={<MockInterviewPage />} />
+            <Route path="feedback/:interviewId" element={<Feedback />} />
           </Route>
         </Route>
       </Routes>

@@ -24,6 +24,7 @@ import { chatSession } from "@/scripts";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   updateDoc,
@@ -148,6 +149,23 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!initialData?.id) return;
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this interview?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "interviews", initialData.id));
+      toast.success("Deleted interview successfully.");
+      navigate("/generate", { replace: true });
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Failed to delete interview.");
+    }
+  };
+
   useEffect(() => {
     if (initialData) {
       form.reset({
@@ -168,6 +186,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
         />
         {initialData && (
           <Button
+          onClick={handleDelete}
             size="icon"
             variant="ghost"
             className="mt-2 md:mt-0 hover:bg-red-50 transition-colors"
@@ -323,4 +342,3 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
     </div>
   );
 };
-  

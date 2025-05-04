@@ -221,7 +221,7 @@ export const RecordAnswer = ({
         <div className="flex items-center gap-2 text-white">
           <label>Select Camera:</label>
           <select
-            value={selectedDeviceId || ""}
+            value={selectedDeviceId ?? ""}
             onChange={(e) => setSelectedDeviceId(e.target.value)}
             className="px-2 py-1 rounded-md bg-gray-800 text-white"
           >
