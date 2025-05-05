@@ -9,7 +9,7 @@ interface NavigationRoutesProps {
 export const NavigationRoutes = ({ isMobile = false }: NavigationRoutesProps) => {
   return (
     <ul
-      className={cn(
+      className={cn( 
         "flex items-center gap-6",
         isMobile && "flex-col items-start gap-8"
       )}
@@ -23,7 +23,7 @@ export const NavigationRoutes = ({ isMobile = false }: NavigationRoutesProps) =>
                 "text-base text-neutral-500 hover:text-neutral-800 transition-colors",
                 isActive && "text-neutral-800 font-semibold"
               )
-            }
+            } 
           >
             {route.label} 
           </NavLink>

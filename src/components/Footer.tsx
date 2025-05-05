@@ -21,10 +21,10 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, icon, hoverColor }) => {
       {icon}
     </a>
   );
-};
+}; 
 
 interface FooterLinkProps {
-  to: string;
+  to: string; 
   children: React.ReactNode;
 }
 

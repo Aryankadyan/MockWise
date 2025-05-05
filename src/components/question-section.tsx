@@ -22,7 +22,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
       window.speechSynthesis.cancel();
       setIsPlaying(false);
       setCurrentSpeech(null); 
-    } else {
+    } else {  
       if ("speechSynthesis" in window) {
         const speech = new SpeechSynthesisUtterance(qst);
         window.speechSynthesis.speak(speech);

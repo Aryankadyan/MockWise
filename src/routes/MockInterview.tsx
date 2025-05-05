@@ -99,14 +99,14 @@ export const MockInterviewPage = () => {
             return (
               <QuestionSection
                 questions={interview?.questions.map(q => ({
-                  id: q.id,
+                  id: q.id, 
                   question: q.question,
                   answer: q.answer,
                 }))}
               />
             );
           })()}
-        </div>
+        </div> 
       )}
     </div>
   );

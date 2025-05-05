@@ -19,12 +19,12 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
 
-  useEffect(() => {
+  useEffect(() => { 
     setLoading(true);
     const interviewQuery = query(
       collection(db, "interviews"),
       where("userId", "==", userId)
-    );
+    ); 
 
     const unsubscribe = onSnapshot(
       interviewQuery,

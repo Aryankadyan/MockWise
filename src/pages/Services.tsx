@@ -3,7 +3,7 @@ import { FaRobot, FaChalkboardTeacher, FaChartLine, FaRegLightbulb, FaArrowUp } 
 
 const services = [
   {
-    title: 'AI-Powered Mock Interviews',
+    title: 'AI-Powered Mock Interviews', 
     description: 'Simulate real-world interviews using cutting-edge AI models tailored to your role and experience level.',
     icon: <FaRobot size={30} className="text-teal-600" />,
   },
@@ -22,7 +22,7 @@ const services = [
     description: 'Get customized questions and resources based on your skill level, goals, and job preferences.',
     icon: <FaRegLightbulb size={30} className="text-teal-600" />,
   },
-];
+]; 
 
 const Services = () => {
   return (

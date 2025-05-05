@@ -35,7 +35,7 @@ export const InterviewPin = ({
     >
       <Card className="p-4 rounded-2xl bg-white shadow-md hover:shadow-xl space-y-4 transition-all">
         <CardTitle className="text-lg font-semibold">
-          {interview?.position}
+          {interview?.position} 
         </CardTitle>
 
         <CardDescription className="text-sm text-gray-500">
@@ -44,7 +44,7 @@ export const InterviewPin = ({
 
         <div className="w-full flex items-center gap-2 flex-wrap">
           {interview?.techStack.split(",").map((word, index) => (
-            <Badge
+            <Badge 
               key={index}
               variant={"outline"}
               className="text-xs text-muted-foreground hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-900 transition"

@@ -14,13 +14,13 @@ interface CustomBreadCrumbProps {
   breadCrumbItems?: { link: string; label: string }[];
   className?: string;
 }
-
+ 
 export const CustomBreadCrumb = ({
   breadCrumbPage,
   breadCrumbItems,
   className,
 }: CustomBreadCrumbProps) => {
-  return (
+  return ( 
     <Breadcrumb
       className={`max-w-3xl mx-auto px-4 py-2 rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-md ${className}`}
     >

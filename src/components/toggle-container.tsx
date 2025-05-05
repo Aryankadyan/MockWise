@@ -22,10 +22,10 @@ export const ToggleContainer = () => {
         <SheetHeader>
           <SheetTitle/>
         </SheetHeader>
-
+ 
       <nav className="gap-8 flex flex-col items-start">
         <NavigationRoutes isMobile/>
-            {userId && (
+            {userId && ( 
               <NavLink 
               to={"/generate"}
               className={({ isActive }) =>

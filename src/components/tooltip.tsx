@@ -31,13 +31,13 @@ import { cn } from "@/lib/utils";
     className?: string;
   }
   
-  export const TooltipButton = ({
+  export const TooltipButton = ({ 
     content,
     icon,
     onClick,
     buttonVariant = "ghost",
     buttonClassName = "",
-    delay = 0,
+    delay = 0, 
     disabled = false,
     loading = false,
   }: TooltipButtonProps) => {

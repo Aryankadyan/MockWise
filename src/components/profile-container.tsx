@@ -10,7 +10,7 @@ export const ProfileContainer = () => {
 
     if(!isLoaded){
         return (
-            <div className="flex items-center">
+            <div className="flex items-center"> 
                 <Loader className="min-w-4 min-h-4 animate-spin text-emerald-400" /> 
             </div>
         )
@@ -20,7 +20,7 @@ export const ProfileContainer = () => {
     <div className="flex items-center gap-5">
         {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />
-        ) : (
+        ) : ( 
         <Link to={"/signin"}>
         <Button size={"sm"}>Get Started</Button>
         </Link> 

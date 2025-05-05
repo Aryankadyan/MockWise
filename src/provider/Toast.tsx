@@ -2,7 +2,7 @@
 import { Toaster } from 'sonner'
 
 export const ToasterProvider = () => {
-  return (
+  return ( 
     <Toaster
     theme="light"
     richColors
@@ -12,3 +12,4 @@ export const ToasterProvider = () => {
   )
 }
 
+ 

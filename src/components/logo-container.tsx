@@ -10,10 +10,11 @@ export const LogoContainer = () => {
         alt="MockWise logo"
         className="h-14"
       />
-    </Link>
+    </Link> 
   );
 };
 
 
 
 
+ 

@@ -23,7 +23,7 @@ const Modal = ({
 }: ModalProps) => {
   const onChange = (open: boolean) => {
     if (!open) {
-      onClose();
+      onClose(); 
     }
   };
 
@@ -38,7 +38,7 @@ const Modal = ({
         <div>{children}</div>
       </DialogContent>
     </Dialog>
-  );
+  ); 
 };
 
 export default Modal;

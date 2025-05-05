@@ -330,7 +330,7 @@ export const RecordAnswer = ({
       </div>
 
       {/* AI Feedback Section */}
-      {aiResult && (
+      {aiResult && ( 
         <div className="w-full mt-6 p-6 border border-gray-200 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 shadow-lg transition-all duration-300 hover:shadow-xl">
           <h2 className="text-xl font-semibold text-indigo-900">AI Feedback:</h2>
           <div className="mt-3">
@@ -344,7 +344,7 @@ export const RecordAnswer = ({
               <strong className="text-indigo-700">Feedback:</strong>{" "}
               <span className="leading-relaxed">{aiResult.feedback}</span>
             </p>
-          </div>
+          </div> 
         </div>
       )}
     </div>

@@ -9,7 +9,7 @@ export const CreateEditPage = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
   const [interview, setInterview] = useState<Interview | null>(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchInterview = async () => {
       if (interviewId) {
         try {
@@ -23,7 +23,7 @@ export const CreateEditPage = () => {
         } catch (error) {
           console.log(error);
         }
-      }
+      } 
     };
 
     fetchInterview();

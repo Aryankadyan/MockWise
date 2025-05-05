@@ -11,7 +11,7 @@ const Contact = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  }; 
 
   const sendEmail = async () => {
     const templateParams = {
@@ -20,7 +20,7 @@ const Contact = () => {
       message: formData.message,
     };
 
-    try {
+    try { 
       await emailjs.send(
         'service_oyaixjv',   // Replace with your actual EmailJS service ID
         'template_eij6tx8',  // Replace with your template ID

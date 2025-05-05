@@ -31,7 +31,7 @@ const Header = () => {
                 )
                 }
                 >
-                  Take an Interview
+                  Take an Interview 
                 </NavLink>
             )}
           </nav>
@@ -44,7 +44,7 @@ const Header = () => {
             {/* mobile toggle section */}
             <ToggleContainer />
 
-          </div>
+          </div> 
         </div>
       </Container>
     </header>

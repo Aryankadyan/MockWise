@@ -40,7 +40,7 @@ const Home = () => {
         {/* Image Section */}
         <div className="w-full mt-4 rounded-xl bg-gray-100 h-[500px] md:h-[550px] drop-shadow-md overflow-hidden relative">
           <img
-            src="/assets/img/hero.jpg"
+            src="/assets/img/hero.jpg" 
             alt="Interview Hero"
             className="w-full h-full object-cover"
           />
@@ -52,7 +52,7 @@ const Home = () => {
           <div className="absolute top-4 left-4 px-4 py-2 rounded-md bg-white/40 backdrop-blur-md font-semibold text-white shadow-md z-20">
             Interviews Copilot &copy;
           </div>
-
+ 
           {/* Testimonial box */}
           <div className="hidden md:block absolute w-80 bottom-4 right-4 px-4 py-4 rounded-xl bg-white/60 backdrop-blur-md z-20 shadow-lg">
             <div className="flex items-center gap-3 mb-2">

@@ -19,11 +19,11 @@ export const SaveModal = ({
       title="Are you sure?"
       description="This action cannot be undone you can't edit or re-answer this question again!"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onClose} 
     >
       <div className="pt-6 space-x-2 flex items-center justify-end w-full">
         <Button disabled={loading} variant={"outline"} onClick={onClose}>
-          Cancel
+          Cancel 
         </Button>
         <Button
           disabled={loading}

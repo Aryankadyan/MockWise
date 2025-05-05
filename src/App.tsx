@@ -12,12 +12,12 @@ import { CreateEditPage } from "./routes/CreateEditPage"
 import { MockLoadPage } from "./routes/MockPage"
 import { MockInterviewPage } from "./routes/MockInterview"
 import { Feedback } from "./routes/FeedBack"
-import Contact from "./pages/Contact"
+import Contact from "./pages/Contact" 
 import Services from "./pages/Services"
 import AboutUs from "./pages/AboutUs"
 
-
-const App = () => {
+  
+const App = () => {  
   return (
     <Router>
       <Routes>

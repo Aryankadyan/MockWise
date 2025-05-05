@@ -10,7 +10,7 @@ export const Headings = ({
   title,
   description,
   isSubHeading = false,
-}: HeadingProps) => {
+}: HeadingProps) => { 
   return (
     <div>
       <h2 className={cn("text-2xl md:text-3xl text-gray-800 font-semibold font-sans",
@@ -21,7 +21,7 @@ export const Headings = ({
       </h2>
       {description && (
         <p className="text-sm text-muted-foreground">{description}</p>
-      )}
+      )} 
     </div>
   )
 }

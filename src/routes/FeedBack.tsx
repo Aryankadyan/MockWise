@@ -23,8 +23,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import {
-  CircleCheck,
+import { 
+  CircleCheck, 
   Star,
   Share2,
   Download,

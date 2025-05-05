@@ -5,7 +5,7 @@ const AboutUs = () => {
     <section className="bg-gradient-to-b from-slate-800 via-gray-800 to-gray-900 text-white min-h-screen px-6 py-16">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-10 text-center text-teal-400">
-          About Us
+          About Us  
         </h1>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -20,7 +20,7 @@ const AboutUs = () => {
               With every feature we build, we focus on clarity, simplicity, and helping you feel confident when it matters most.
             </p>
           </div>
-
+ 
           <img
             src="/assets/img/about.jpg" 
             alt="About us"

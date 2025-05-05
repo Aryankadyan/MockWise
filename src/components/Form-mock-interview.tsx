@@ -114,7 +114,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
   };
 
   const onSubmit = async (data: FormData) => {
-    try {
+    try {  
       setLoading(true);
       if (initialData) {
         if (isValid) {

@@ -51,10 +51,10 @@ export const MockLoadPage = () => {
               ...interviewDoc.data(),
             } as Interview);
           }
-        } catch (error) {
+        } catch (error) { 
           console.log(error);
         }
-      }
+      } 
     };
 
     fetchInterview();
