@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
     delay?: number;
     disabled?: boolean;
     loading?: boolean;
+    className?: string;
   }
   
   export const TooltipButton = ({

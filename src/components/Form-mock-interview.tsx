@@ -145,7 +145,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
         description: "Something went wrong. Please try again later.",
       });
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 

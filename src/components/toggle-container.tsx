@@ -18,7 +18,7 @@ export const ToggleContainer = () => {
       <SheetTrigger className="block md:hidden">
         <Menu/>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent aria-describedby="">
         <SheetHeader>
           <SheetTitle/>
         </SheetHeader>
@@ -43,4 +43,5 @@ export const ToggleContainer = () => {
     </Sheet>
   )
 }
+
 

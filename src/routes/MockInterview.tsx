@@ -51,7 +51,8 @@ export const MockInterviewPage = () => {
   }
 
   return (
-    <div className="flex flex-col w-full gap-8 py-5">
+    <div className="flex flex-col w-full gap-8 py-10 min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-teal-50">
+      {/* Breadcrumb with Enhanced Styling */}
       <CustomBreadCrumb
         breadCrumbPage="Start"
         breadCrumbItems={[
@@ -61,31 +62,34 @@ export const MockInterviewPage = () => {
             link: `/generate/interview/${interview?.id}`,
           },
         ]}
+        className="px-6 text-gray-700 font-medium text-lg tracking-wide transition-all duration-300 hover:text-indigo-600"
       />
 
-      <div className="w-full">
-        <Alert className="bg-sky-100 border border-emerald-300 p-4 rounded-lg flex items-start gap-3">
-          <Lightbulb className="h-5 w-5 text-sky-600" />
+      {/* Alert Section with Modern Styling and Animation */}
+      <div className="w-full px-6">
+        <Alert className="bg-gradient-to-r from-teal-100 to-blue-100 border border-teal-300 p-6 rounded-xl shadow-lg transform transition-all duration-500 hover:scale-[1.01]">
+          <Lightbulb className="h-6 w-6 text-teal-600 animate-pulse" />
           <div>
-            <AlertTitle className="text-violet-900 font-semibold">
+            <AlertTitle className="text-indigo-900 font-bold text-xl tracking-tight">
               Important Note
             </AlertTitle>
-            <AlertDescription className="text-sm text-blue-800 mt-1 leading-relaxed">
-              Press "Record Answer" to begin answering the question. Once you
+            <AlertDescription className="text-sm text-gray-700 mt-2 leading-relaxed font-medium">
+              Press <span className="text-teal-600 font-semibold">"Record Answer"</span> to begin answering the question. Once you
               finish the interview, you'll receive feedback comparing your
               responses with the ideal answers.
               <br />
               <br />
-              <strong>Note:</strong>{" "}
-              <span className="font-medium">Your video is never recorded.</span>{" "}
+              <strong className="text-indigo-800">Note:</strong>{" "}
+              <span className="font-medium text-gray-600">Your video is never recorded.</span>{" "}
               You can disable the webcam anytime if preferred.
             </AlertDescription>
           </div>
         </Alert>
       </div>
 
+      {/* Question Section with Enhanced Layout */}
       {interview?.questions && interview?.questions.length > 0 && (
-        <div className="mt-4 w-full flex flex-col items-start gap-4">
+        <div className="w-full px-6 mt-8 flex flex-col items-start gap-6 bg-white py-8 rounded-2xl shadow-xl transition-all duration-500 hover:shadow-2xl">
           {(() => {
             console.log("Questions:", interview.questions);
             const questionSet = new Set(interview.questions.map(q => q.question));
@@ -95,8 +99,8 @@ export const MockInterviewPage = () => {
             return (
               <QuestionSection
                 questions={interview?.questions.map(q => ({
-                  id: q.id, // Include id for unique key
-                  question: q.question, // Fixed: q.questions -> q.question
+                  id: q.id,
+                  question: q.question,
                   answer: q.answer,
                 }))}
               />
@@ -107,3 +111,6 @@ export const MockInterviewPage = () => {
     </div>
   );
 };
+
+
+

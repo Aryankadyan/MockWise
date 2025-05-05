@@ -40,6 +40,7 @@ export const MockLoadPage = () => {
   }
 
   useEffect(() => {
+    setIsLoading(false)
     const fetchInterview = async () => {
       if (interviewId) {
         try {

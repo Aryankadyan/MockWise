@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaRobot, FaChalkboardTeacher, FaChartLine, FaRegLightbulb, FaArrowUp } from 'react-icons/fa';
 
 const services = [

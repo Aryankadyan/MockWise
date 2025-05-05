@@ -33,7 +33,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
         speech.onend = () => {
           setIsPlaying(false);
           setCurrentSpeech(null);
-        };
+        }
       }
     }
   };
@@ -89,18 +89,4 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
       </Tabs>
     </div>
   );
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
