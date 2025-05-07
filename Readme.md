@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/log/MockWise.png" alt="MockWise Logo" width="200" />
+  <img src="/public/assets/log/MockWise.png"   alt="MockWise Logo"  width="200"/>
 </p>
 
 <h1 align="center">MockWise 🎯</h1>
@@ -46,14 +46,6 @@ https://mockwise-8888.web.app
 | Authentication   | Clerk                                  |
 | Email Services   | EmailJS                                |
 | AI Integration   | (e.g. OpenAI GPT-4 or Custom LLM API)  |
-
----
-
-## 🖼️ Screenshots
-
-| Dashboard View | Interview Interface |
-|----------------|---------------------|
-| ![Dashboard](public/assets/dashboard.png) | ![Interview](public/assets/interview-simulation.png) |
 
 ---
 
@@ -114,4 +106,12 @@ git commit -m "Added feature"
 git push origin feature/your-feature
 ```
 #### Then open a Pull Request 🙌
+
+## Contact
+- GitHub: @Aryankadyan
+- Email: kadyanaryan744@gmail.com
+
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 
