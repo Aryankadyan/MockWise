@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/mockwise-logo.png" alt="MockWise Logo" width="200" />
+  <img src="assets/log/MockWise.png" alt="MockWise Logo" width="200" />
 </p>
 
 <h1 align="center">MockWise 🎯</h1>
