@@ -21,9 +21,7 @@
 
 ## 🎥 Demo Walkthrough
 
-https://github.com/Aryankadyan/MockWise/assets/YOUR_USERNAME/demo-walkthrough.gif
-
-> _Replace the above link with your uploaded GitHub-hosted GIF or use a relative path like `/public/assets/demo.gif`._
+https://mockwise-8888.web.app
 
 ---
 
