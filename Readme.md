@@ -19,8 +19,8 @@
 ---
 
 ## 🎥 Demo Walkthrough
-
-https://mockwise-8888.web.app
+Experience MockWise in action! Check out our live demo:
+👉 [Visit Demo](https://mockwise-8888.web.app)
 
 ---
 
@@ -50,21 +50,30 @@ https://mockwise-8888.web.app
 
 ## 📦 Getting Started
 
+Get MockWise up and running locally in just a few steps!
+
 ### Prerequisites
 
-- Node.js v14+
-- Firebase Project
-- Clerk Account
-- EmailJS Account
+- **Node.js**: v14 or higher
+- **Firebase**: Set up a Firebase project
+- **Clerk**: Create a Clerk account for authentication
+- **EmailJS**: Set up an EmailJS account for contact forms
+- **Gemini API Key**: For AI-powered features
+
 
 ### Installation
 
-```bash
-git clone https://github.com/Aryankadyan/MockWise.git
-cd MockWise
-npm install
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Aryankadyan/MockWise.git
+   cd MockWise
+   ```
 
+- Install dependencies
+  ```bash
+  npm install
+  ```
+  
 
 ## Environment Variables
 
