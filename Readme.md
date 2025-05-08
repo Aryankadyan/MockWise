@@ -13,7 +13,6 @@
 <p align="center">
   <img src="https://img.shields.io/github/stars/Aryankadyan/MockWise?style=flat-square" />
   <img src="https://img.shields.io/github/forks/Aryankadyan/MockWise?style=flat-square" />
-  <img src="https://img.shields.io/github/license/Aryankadyan/MockWise?style=flat-square" />
   <img src="https://img.shields.io/github/deployments/Aryankadyan/MockWise/production?label=deploy&style=flat-square" />
 </p>
 
