@@ -20,7 +20,7 @@
 
 ## 🎥 Demo Walkthrough
 Experience MockWise in action! Check out our live demo:
-👉 [Visit Demo](https://mockwise-8888.web.app)
+👉[Visit Demo](https://mockwise-8888.web.app)
 
 ---
 
@@ -44,7 +44,7 @@ Experience MockWise in action! Check out our live demo:
 | Backend          | Firebase (Firestore, Hosting)          |
 | Authentication   | Clerk                                  |
 | Email Services   | EmailJS                                |
-| AI Integration   | (e.g. OpenAI GPT-4 or Custom LLM API)  |
+| AI Integration   | (e.g., OpenAI GPT-4 or Custom LLM API)  |
 
 ---
 
